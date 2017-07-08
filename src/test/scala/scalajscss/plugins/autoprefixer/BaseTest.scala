@@ -1,19 +1,6 @@
 package scalajscss.plugins.autoprefixer;
 
-import org.scalactic.source.Position
-import org.scalatest._
-
 import scala.scalajs.js.JavaScriptException
+import scalajsjest.JestSuite
 
-class BaseTest extends FunSuite with BeforeAndAfter{
-
-  override protected def test(testName: String, testTags: org.scalatest.Tag*)(testFun: => Any)(implicit pos: Position) = {
-    super.test(testName, testTags: _*)(try testFun catch {
-      case jse @ JavaScriptException(e) =>
-        println(e)
-        jse.printStackTrace()
-        throw jse
-    })
-  }
-
-}
+class BaseTest extends JestSuite {}

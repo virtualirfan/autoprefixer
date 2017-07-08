@@ -1,6 +1,6 @@
 name := "autoprefixer"
 
-//version := "2017.6.0-SNAPSHOT"
+//version := "2017.7.0-SNAPSHOT"
 
 enablePlugins(ScalaJSPlugin)
 
@@ -22,8 +22,8 @@ scalacOptions ++= Seq(
 //deps
 
 libraryDependencies ++= Seq(
-  "scalajs-css" %%% "core" % "2017.6.24-RC" % Provided,
-  "org.scala-js" %%% "scalajs-dom" % "0.9.1" % Provided)
+  "scalajs-css" %%% "core" % "2017.7.9-RC" % Provided,
+  "org.scala-js" %%% "scalajs-dom" % "0.9.3" % Provided)
 
 //bintray
 resolvers += Resolver.jcenterRepo
@@ -41,5 +41,40 @@ publishArtifact in Test := false
 
 //Test
 resolvers += Resolver.bintrayRepo("scalajs-css", "maven")
-libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.0" % Test
-scalaJSStage in Global := FastOptStage
+scalaJSUseMainModuleInitializer in Test := true
+
+scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
+
+val TEST_FILE = s"./sjs.test.js"
+
+artifactPath in Test in fastOptJS := new File(TEST_FILE)
+artifactPath in Test in fullOptJS := new File(TEST_FILE)
+
+val testDev = Def.taskKey[Unit]("test in dev mode")
+val testProd = Def.taskKey[Unit]("test in prod mode")
+
+testDev := {
+  (fastOptJS in Test).value
+  runJest()
+}
+
+testProd := {
+  (fullOptJS in Test).value
+  runJest()
+}
+
+def runJest() = {
+  import sys.process._
+  val jestResult = "npm test".!
+  if (jestResult != 0) throw new IllegalStateException("Jest Suite failed")
+}
+
+resolvers += Resolver.bintrayRepo("scalajs-react-interface", "maven")
+resolvers += Resolver.bintrayRepo("scalajs-jest", "maven")
+
+libraryDependencies ++= Seq(
+  "org.scala-js" %%% "scalajs-dom" % "0.9.3" % Test,
+  "scalajs-jest" %%% "core" % "2017.7.9-beta" % Test
+)
+//scalaJSStage in Global := FastOptStage
+scalaJSStage in Global := FullOptStage
