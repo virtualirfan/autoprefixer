@@ -10,7 +10,7 @@ css vendor prefix plugin for scalajs-css.
 
 3) Include it in index.html or require it in entry file(index.js)
 
-4) `CSSStyleSheetRegistry.setPlusins(AutoPrefixer())`
+4) `CSSStyleSheetRegistry.setPlugins(AutoPrefixer())`
 
 # Options 
 

@@ -1,16 +1,14 @@
 name := "autoprefixer"
 
-//version := "2017.7.0-SNAPSHOT"
+//version := "2018.3.20-SNAPSHOT"
 
 enablePlugins(ScalaJSPlugin)
 
-val scala211 = "2.11.11"
+val scala212 = "2.12.4"
 
-val scala212 = "2.12.2"
+scalaVersion := scala212
 
-scalaVersion := scala211
-
-crossScalaVersions := Seq(scala211, scala212)
+crossScalaVersions := Seq(scala212)
 
 scalacOptions ++= Seq(
   "-feature",
@@ -22,8 +20,8 @@ scalacOptions ++= Seq(
 //deps
 
 libraryDependencies ++= Seq(
-  "scalajs-css" %%% "core" % "2017.7.9-RC" % Provided,
-  "org.scala-js" %%% "scalajs-dom" % "0.9.3" % Provided)
+  "scalajs-css" %%% "core" % "2018.2.2" % Provided,
+  "org.scala-js" %%% "scalajs-dom" % "0.9.5" % Provided)
 
 //bintray
 resolvers += Resolver.jcenterRepo
@@ -73,8 +71,8 @@ resolvers += Resolver.bintrayRepo("scalajs-react-interface", "maven")
 resolvers += Resolver.bintrayRepo("scalajs-jest", "maven")
 
 libraryDependencies ++= Seq(
-  "org.scala-js" %%% "scalajs-dom" % "0.9.3" % Test,
-  "scalajs-jest" %%% "core" % "2017.7.9-beta" % Test
+  "org.scala-js" %%% "scalajs-dom" % "0.9.5" % Test,
+  "scalajs-jest" %%% "core" % "2018.2.2-RC" % Test
 )
 //scalaJSStage in Global := FastOptStage
 scalaJSStage in Global := FullOptStage
